@@ -8,9 +8,9 @@ from elasticsearch import Elasticsearch
 import logging
 def connect_elasticsearch():
     _es = Elasticsearch([{
-        'host': '192.168.58.19',
+        'host': 'es-gsu.eastus.cloudapp.azure.com',
         'port': 9200,
-        'http_auth': ("elastic","helloworld")
+        'http_auth': ("elastic","helloworld@123")
         }])
     if _es.ping():
         print('Connected')
@@ -26,7 +26,7 @@ def create_index(index_name):
 
 def put_document(data,index):
     id = uuid.uuid1()
-    _es.create(document=data, index=index, id=id.int)
+    return _es.create(document=data, index=index, id=id.int)
     # _es.bulk(body=data,index=index)
 
 
@@ -43,8 +43,10 @@ if __name__ == '__main__':
     index_name = 'radon-project'
     _es = create_index(index_name)
 
-    data = gen_data()
+
     while True:
+        data = gen_data()
         for record in data:
-            put_document(dumps(record),index_name)
+            res = put_document(record,index_name)
+            print(res['result'],record)
         time.sleep(5)

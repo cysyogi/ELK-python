@@ -3,11 +3,12 @@ from random import randrange
 
 def gen_data(no_of_devices = 3):
     data = []
-    time = datetime.now()
+    now = datetime.now()
+    # now = now.strftime("%m/%d/%Y, %H:%M:%S")
     for j in range(0, no_of_devices):
         record = {
             'deviceId' : "RaspberryPi{}".format(j),
-            'dateTime' : str(time),
+            'dateTime' : now,
             'temperature': randrange(25,31),
             'humdity': randrange(18,21),
             'pressure': randrange(97,100),
